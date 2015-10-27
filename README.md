@@ -21,7 +21,7 @@ A puppet module including RPM pre-built packages for installing UnrealIRCd 4.0.0
 
 ## Module Description
 
-This module will install RPM pre-built packages in files directory to `/opt/unrealircd` and copy configuration file to
+This module will install RPM pre-built packages in `files` directory to `/opt/unrealircd` and copy configuration file to
 `/opt/unrealircd/conf`, init.d file to `/etc/init.d/unrealircd`.
 
 You can install UnrealIRCd by one shell command.
@@ -33,7 +33,7 @@ You can install UnrealIRCd by one shell command.
 * This module will automatically create a system user `irc` and group `irc`
 * and Bring up service automatically under user `irc`.
 
-### Setup Requirements 
+### Setup Requirements
 
 No requirements.
 
