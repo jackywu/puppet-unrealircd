@@ -58,34 +58,41 @@ class unrealircd {
       ensure => installed,
     }
 
-    file {"/opt/unrealircd/conf/unrealircd.conf":
+    $conf_file = "/opt/unrealircd/conf/unrealircd.conf"
+    file {$conf_file:
       content => template("unrealircd/unrealircd.conf.erb"),
       ensure  => file,
       require => Package['unrealircd'],
     }
 
-    file {"/etc/init.d/unrealircd":
+    $init_file = "/etc/init.d/unrealircd"
+    file {$init_file:
       content => template("unrealircd/unrealircd.erb"),
       ensure  => file,
       mode    => "755",
-      require => Package['unrealircd'],
     }
 
     user {'irc':
       ensure => present,
     }
 
+    $install_dir = "/opt/unrealircd"
+    file {$install_dir:
+      ensure  => directory,
+      recurse => true,
+      owner   => "irc",
+      group   => "irc",
+      mode    => "755",
+      require => [User["irc"], File[$conf_file]],
+    }
+
     service {"unrealircd-service":
       name       => "unrealircd",
       enable     => true,
       ensure     => true,
-      subscribe  => Package['unrealircd'],
+      subscribe  => [Package['unrealircd'], File[$conf_file], File[$init_file]],
       hasrestart => true,
       hasstatus  => false,
-      #start     => "/etc/init.d/unrealircd start",
-      #stop      => "/etc/init.d/unrealircd stop",
-      require    => User['irc'],
-      
     }
 
 }
